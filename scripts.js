@@ -17,7 +17,15 @@ function getRepos(searchTerm) {
     const searchURL = `https://api.github.com/users/${searchTerm}/repos`;
     console.log(searchURL);
     
-    fetch(searchURL).then(response => response.json()).then(responseJson => displayResults(responseJson));
+    fetch(searchURL)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } 
+            throw new Error(response.statusText);
+            })
+        .then(responseJson => displayResults(responseJson))
+        .catch(error => alert(error.message));
 }
 
 
